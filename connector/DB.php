@@ -1,16 +1,16 @@
 <?php
 
 class DB {
-    private $dbhost = "localhost";
+    private $dbhost = "localhost:3306";
     private $dbuser = "root";
     private $dbpass = "";
-    private $db = "";
+    private $db = "oop_in_php";
 
     private $conn, $query;
 
     public function open_connection() {
         try {
-            $this->conn = new PDO("mysql:host=$this->dbhost;dbname=myDB", $this->$username, $this->$password, $this->$db);
+            $this->conn = new PDO("mysql:host=$this->dbhost;dbname=$this->db", $this->dbuser, $this->dbpass);
             return ["err" => False];
         }
         catch(PDO_Exception $e) {
@@ -20,14 +20,15 @@ class DB {
     }
     public function prepare_and_execute_query($query, $props) {
         try {
-            $this -> $query = $this -> conn -> prepare($query);
+
+            $this -> query = $this -> conn -> prepare($query);
         }
         catch(PDO_Exception $e) {
             var_dump($e);
             return ["err" => True, "msg" => "PREPARE_QUERY"];
         }
         try {
-            $this -> $query -> execute($props);
+            $this -> query -> execute($props);
         }
         catch(PDO_Exception $e) {
             var_dump($e);
@@ -37,7 +38,7 @@ class DB {
     }
     public function get_all_data() {
         try {
-            $data = $this -> $query -> fetchAll();
+            $data = $this -> query -> fetchAll();
             return ["err" => False, "data" => $data];
         }
         catch(PDO_Exception $e) {
