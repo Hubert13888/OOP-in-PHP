@@ -4,9 +4,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-include_once("../controllers/DB_read_controller.php");
-include_once("../controllers/DB_update_controller.php");
-include_once("../controllers/DB_delete_controller.php");
+include_once("../models/DB_read.php");
+include_once("../models/DB_update.php");
+include_once("../models/DB_delete.php");
 
 $read_controller = new DB_read();
 $update_controller = new DB_update();

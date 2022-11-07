@@ -5,8 +5,18 @@ class DB {
     private $dbuser = "root";
     private $dbpass = "";
     private $db = "oop_in_php";
+    private $query, $conn;
 
-    private $conn, $query;
+    protected $sessionid;
+
+    public function __construct() {
+        $this -> sessionid = session_id();
+        $this -> open_connection();
+    }
+    
+    public function __destruct() {
+        $this -> close_connection();
+    }
 
     public function open_connection() {
         try {

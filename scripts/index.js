@@ -19,7 +19,7 @@ const updateMessageListFromArray = (newMessageListArray) => {
         if(existsFlag === false) {
             messageAppendContent += `
                 <div class="chat-list-message">
-                    ${newMsg.author}> ${newMsg.content}
+                    ${newMsg.created_on} ${newMsg.username || "anonymous"}> ${newMsg.content}
                 </div>
             `
         }
@@ -43,7 +43,7 @@ const updateOnlineUsersFromArray = () => {
 const setUser = (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
-    fetch("/endpoints/set_online.php", {method: "POST", body: formData}).then(data => data.json()).then(
+    fetch("/views/set_online.php", {method: "POST", body: formData}).then(data => data.json()).then(
         data => {
             if(data.err) {
                 return console.log("error", data.err)
@@ -61,7 +61,7 @@ const setUser = (e) => {
 const sendMessage = (e) => {
     e.preventDefault()
     let formData = new FormData(e.target)
-    fetch("/endpoints/send_message.php", {method: "POST", body: formData}).then(data => data.json()).then(
+    fetch("/views/send_message.php", {method: "POST", body: formData}).then(data => data.json()).then(
         data => {
             if(data.err) {
                return console.log("error", data.err)
@@ -72,8 +72,8 @@ const sendMessage = (e) => {
     clearInputs()
 }
 
-const readMessages = () => {
-    fetch("/endpoints/read_messages.php", {method: "GET"}).then(data => data.json()).then(
+const updateChatContainer = () => {
+    fetch("/views/do_interval_updates.php", {method: "GET"}).then(data => data.json()).then(
         data => {
             if(data[0].err) {
                 return console.log("error0", data.err)
@@ -92,7 +92,7 @@ const readMessages = () => {
 }
 
 const init = () => {
-    fetch("/endpoints/check_if_already_online.php", {method: "GET"}).then(data => data.json()).then(
+    fetch("/views/check_if_already_online.php", {method: "GET"}).then(data => data.json()).then(
         data => {
             if(data.err) {
                return console.log("error", data.err)
@@ -121,10 +121,10 @@ const toggleChat = () => {
         clearInterval(messageUpdateInterval)
     }
     else {
-        readMessages()
+        updateChatContainer()
         messageUpdateInterval = setInterval(() => {
-            readMessages()
-        }, 1000)
+            updateChatContainer()
+        }, 500)
     }
 }
 const toggleNameBox = () => {

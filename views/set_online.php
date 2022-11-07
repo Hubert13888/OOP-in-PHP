@@ -4,7 +4,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-include_once("../controllers/DB_add_controller.php");
+include_once("../models/DB_add.php");
 include_once("../validators/Username_validator.php");
 
 $add_controller = new DB_add();
